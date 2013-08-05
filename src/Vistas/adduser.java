@@ -6,8 +6,10 @@ package Vistas;
 //import datos.estados;
 //import datos.roles;
 import datos.codemd5;
+import datos.estados;
 import datos.usuarios;
 import datos.hibernateUtilSL;
+import datos.roles;
 import java.awt.HeadlessException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -26,8 +28,8 @@ public class adduser extends javax.swing.JFrame {
      */
     public adduser() {
         initComponents();
-//        fillComboBoxrol();
-//        fillComboBoxestado();
+        fillComboBoxrol();
+        fillComboBoxestado();
     }
 
      Session session;
@@ -42,9 +44,14 @@ public class adduser extends javax.swing.JFrame {
     StringBuilder strBuild;
     String key = "";
     usuarios user;
+    roles rl;
+    estados st;
     
     //inicializando instancias.
     user = new usuarios();
+    rl = new roles();
+    st = new estados();
+    
     strBuild=new StringBuilder();
     
     //encriptando password.
@@ -56,20 +63,26 @@ public class adduser extends javax.swing.JFrame {
     user.setApellidos(txtapellidos.getText());
     user.setAlias(txtusername.getText());
     user.setPassword(String.valueOf(key));
-    user.setRoles_id(2);
-    user.setEstados_id(1);
+//    user.setRoles_id(Integer.parseInt(rl));
+//    user.setEstados_id(Integer.parseInt(st));
     user.setEmail(txtemail.getText());
     user.setTelefonofijo(txttelefono.getText());
     user.setTelefonocelular(txtmovil.getText());
     user.setDireccion(txtdireccion.getText());
-    
+
     
     //guardando
         try {
             session=hibernateUtilSL.getSessionFactory().openSession();
             session.beginTransaction();
-            //user.setRolesId(new Roles(Integer.parseInt(session.createQuery("SELECT r.id FROM Roles r WHERE r.rol='"+cmbrol.getSelectedItem().toString() +"'").uniqueResult().toString())));
-            //user.setEstadosId(new Estados(Integer.parseInt(session.createQuery("SELECT e.id FROM Estados e WHERE e.estado='"+cmbestado.getSelectedItem().toString() +"'").uniqueResult().toString())));            
+            Query query1=session.createQuery("from roles r where r.rol ='"+cmbrol.getSelectedItem().toString() +"'");
+            List<roles> rls = query1.list();
+            rl= rls.get(0);
+            Query query2=session.createQuery("from estados e where e.estado ='"+cmbestado.getSelectedItem().toString() +"'");
+            List<estados> sts = query2.list();
+            st= sts.get(0);
+            user.setRoles_id(rl);
+            user.setEstados_id(st);
             session.save(user);
             session.getTransaction().commit();
             session.close();
@@ -84,11 +97,12 @@ public class adduser extends javax.swing.JFrame {
          session=hibernateUtilSL.getSessionFactory().openSession();
          session.beginTransaction();
          //Obteniendo la informacion de las columnas que estan siendo consultadas
-         Query query = session.createQuery("SELECT r.rol FROM Roles r");
+         Query query = session.createQuery("SELECT r.rol FROM roles r");
          //session.createSQLQuery(null); //esta es para query de SQL
+         //Query query = session.createSQLQuery("select * from roles");
          List<Object> ids = query.list();
          for (Object id : ids) {
-             System.out.println(id.toString());
+             //System.out.println(id.toString());
              cmbrol.addItem(id.toString());
          }              
          session.close();
@@ -98,17 +112,32 @@ public class adduser extends javax.swing.JFrame {
          session=hibernateUtilSL.getSessionFactory().openSession();
          session.beginTransaction();
          //Obteniendo la informacion de las columnas que estan siendo consultadas
-         Query query = session.createQuery("SELECT e.estado FROM Estados e");
+         Query query = session.createQuery("SELECT e.estado FROM estados e");
          //session.createSQLQuery(null); //esta es para query de SQL
          List<Object> ids = query.list();
          for (Object id : ids) {
-             System.out.println(id.toString());
+             //System.out.println(id.toString());
              cmbestado.addItem(id.toString());
          }              
          session.close();
     }
      
      
+//         private void obtener_rl_es(){
+//         session=hibernateUtilSL.getSessionFactory().openSession();
+//         session.beginTransaction();
+//         Query query1=session.createQuery("SELECT r.id FROM roles r WHERE r.rol='"+cmbrol.getSelectedItem().toString()+"'");
+////         Query query2=session.createQuery("SELECT e.id FROM estados e WHERE e.estado='"+cmbestado.getSelectedItem().toString()+"'");
+//         List<Object> idsrl = query1.list();
+////         List<Object> idsst = query2.list();
+//         rl=idsrl.toString();
+////         st=idsst.toString();
+////         System.out.println(rl.toString());
+////         System.out.println(st.toString());
+//         session.close();
+//         }
+         
+         
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

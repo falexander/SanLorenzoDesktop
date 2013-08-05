@@ -23,11 +23,13 @@ public class usuarios implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="secuencia_usuario")
     private Integer id;    
     
-    @Column(name="roles_id")
-    private int roles_id;    
+    @OneToOne(cascade=CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private roles roles_id;    
     
-    @Column(name="estados_id")
-    private int estados_id;    
+    @OneToOne(cascade= CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private estados estados_id;    
     
     @Column(name="nombres")
     private String nombres;    
@@ -57,8 +59,6 @@ public class usuarios implements Serializable{
     }
 
     public usuarios(int id, int roles_id, int estados_id, String nombres, String apellidos, String alias, String password, String email, String telefonofijo, String telefonocelular, String direccion) {
-        this.roles_id = roles_id;
-        this.estados_id = estados_id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.alias = alias;
@@ -77,19 +77,19 @@ public class usuarios implements Serializable{
         this.id = id;
     }
 
-    public int getRoles_id() {
+    public roles getRoles_id() {
         return roles_id;
     }
 
-    public void setRoles_id(int roles_id) {
+    public void setRoles_id(roles roles_id) {
         this.roles_id = roles_id;
     }
 
-    public int getEstados_id() {
+    public estados getEstados_id() {
         return estados_id;
     }
 
-    public void setEstados_id(int estados_id) {
+    public void setEstados_id(estados estados_id) {
         this.estados_id = estados_id;
     }
 
