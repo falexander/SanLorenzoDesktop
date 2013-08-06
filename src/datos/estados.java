@@ -4,6 +4,7 @@
  */
 package datos;
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -25,16 +26,27 @@ public class estados implements Serializable{
     
     @Column(name="estado")
     private String estado;
+    
+    @OneToMany(mappedBy="estados_id",cascade= CascadeType.ALL)
+    private Set<usuarios> lestusuarios;    
 
+    @OneToMany(mappedBy="estados_id",cascade= CascadeType.ALL)
+    private Set<montosimpuestos> lmonimpuestos;    
+    
     public estados() {
     }
 
     public estados(int id, String estado) {
+        this.id = id;
         this.estado = estado;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEstado() {
@@ -44,7 +56,21 @@ public class estados implements Serializable{
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
-    
+
+    public Set<usuarios> getLestusuarios() {
+        return lestusuarios;
+    }
+
+    public void setLestusuarios(Set<usuarios> lestusuarios) {
+        this.lestusuarios = lestusuarios;
+    }        
+
+    public Set<montosimpuestos> getLmonimpuestos() {
+        return lmonimpuestos;
+    }
+
+    public void setLmonimpuestos(Set<montosimpuestos> lmonimpuestos) {
+        this.lmonimpuestos = lmonimpuestos;
+    }
+        
 }

@@ -4,6 +4,7 @@
  */
 package datos;
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -23,12 +24,12 @@ public class usuarios implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator="secuencia_usuario")
     private Integer id;    
     
-    @OneToOne(cascade=CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="roles_id")
     private roles roles_id;    
     
-    @OneToOne(cascade= CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name="estados_id")
     private estados estados_id;    
     
     @Column(name="nombres")
@@ -53,12 +54,22 @@ public class usuarios implements Serializable{
     private String telefonocelular;                    
     
     @Column(name="direccion")
-    private String direccion;                        
+    private String direccion;  
+    
+    @OneToMany(mappedBy="usuarios_id",cascade= CascadeType.ALL)
+    private Set<publicaciones> luserpublicaciones;
+    
+    @OneToMany(mappedBy="usuarios_id",cascade= CascadeType.ALL)
+    private Set<comentarios> lusercomentarios;    
 
+    @OneToMany(mappedBy="usuarios_id",cascade= CascadeType.ALL)
+    private Set<noticias> lusernoticias;    
+    
     public usuarios() {
     }
 
     public usuarios(int id, int roles_id, int estados_id, String nombres, String apellidos, String alias, String password, String email, String telefonofijo, String telefonocelular, String direccion) {
+        this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.alias = alias;
@@ -156,5 +167,29 @@ public class usuarios implements Serializable{
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-                    
+
+    public Set<publicaciones> getLuserpublicaciones() {
+        return luserpublicaciones;
+    }
+
+    public void setLuserpublicaciones(Set<publicaciones> luserpublicaciones) {
+        this.luserpublicaciones = luserpublicaciones;
+    }
+
+    public Set<comentarios> getLusercomentarios() {
+        return lusercomentarios;
+    }
+
+    public void setLusercomentarios(Set<comentarios> lusercomentarios) {
+        this.lusercomentarios = lusercomentarios;
+    }
+
+    public Set<noticias> getLusernoticias() {
+        return lusernoticias;
+    }
+
+    public void setLusernoticias(Set<noticias> lusernoticias) {
+        this.lusernoticias = lusernoticias;
+    }
+        
 }

@@ -12,7 +12,21 @@
     
     <mapping class="datos.usuarios"/>
     <mapping class="datos.roles"/> 
-    <mapping class="datos.estados"/>   
+    <mapping class="datos.estados"/>
+    <mapping class="datos.categorias"/>
+    <mapping class="datos.publicaciones"/>
+    <mapping class="datos.comentarios"/> 
+    <mapping class="datos.noticias"/>  
+    <mapping class="datos.contribuyentes"/>
+    <mapping class="datos.inmuebles"/>
+    <mapping class="datos.zonas"/>
+    <mapping class="datos.pagos"/>
+    <mapping class="datos.impuestos"/>
+    <mapping class="datos.impuestosinmuebles"/>
+    <mapping class="datos.montosimpuestos"/>
+    <mapping class="datos.imgdescriptions"/>
+
+    
 
   </session-factory>
 </hibernate-configuration>
